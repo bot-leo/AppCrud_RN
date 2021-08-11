@@ -12,14 +12,17 @@ import UsersContext from '../context/UserContext'
 
 export default function UserList(props){
 
-  const {state} = useContext(UsersContext)
+  const {state, dispatch} = useContext(UsersContext)
   
   function confirmUserDeletion(user){
     Alert.alert('Ecluir Usuario', 'Deseja excluir o usuario?',[
       {
         text:'Sim',
         onPress(){
-          console.warn('Excluido ' + user.id)
+          dispatch({
+            type:'deleteUser',
+            payload:user,
+          })
         }
       },
       {
@@ -35,7 +38,7 @@ export default function UserList(props){
           bottomDivider
           onPress={() => props.navigation.navigate('UserForm', user)} 
       >
-        <Avatar rounded source={{ uri: user.avatarUrl }}/>
+        <Avatar rounded  source={{ uri: user.avatarUrl }}/>
 
         <ListItem.Content>
           <ListItem.Title>{user.name}</ListItem.Title>
@@ -66,8 +69,6 @@ export default function UserList(props){
         renderItem={getUserItem}
       />
 
-
-     
     </View>
   )
 }
